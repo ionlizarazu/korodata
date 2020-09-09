@@ -150,6 +150,16 @@ class Korodata():
             )
             return today in lastUpdate
 
+    def azkenEguneraketa():
+        with urllib.request.urlopen("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/covid_19_2020/opendata/generated/covid19-bymunicipality.json") as url:
+            url_str = url.read().decode('unicode_escape').encode('utf-8')
+            data = json.loads(url_str)
+            lastUpdate = datetime.datetime.strftime(
+                datetime.datetime.strptime(
+                    data['lastUpdateDate'], '%Y-%m-%dT%H:%M:%SZ'),
+                '%Y-%m-%d %H:%M'
+            )
+            return lastUpdate
     def herria(herriname):
         how_may_days_original = 24
         days = 0
