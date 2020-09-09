@@ -1,10 +1,12 @@
-import json
-import datetime
-import urllib.request
-import string
 from unidecode import unidecode
-import matplotlib.pyplot as plt
+
+import datetime
+import json
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+import os
+import string
+import urllib.request
 
 
 class Korodata():
@@ -64,6 +66,7 @@ class Korodata():
         plt.text(len(positivesforplot) * 0.35, max(positivesforplot) * -0.09, 'Azken ' +
                  str(len(positivesforplot)) + ' egunetan guztira: ' + str(sum(positivesforplot)))
         plt.title(herriname)
+        os.makedirs('./grafikak')
         plt.savefig('./grafikak/' +
                     "".join(x for x in herriname if x.isalnum()) + '.png')
         plt.close(plt.figure(j, figsize=(14, 8)))
