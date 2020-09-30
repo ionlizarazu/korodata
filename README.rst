@@ -25,15 +25,10 @@ Erabilera eta instalazioa
 
 Instalatu paketea pip erabiliz:
 
-```bash
-
     $ pip install korodata
-
-```
 
 Erabiltzeko inportatu paketea eta deitu metodoei:
 
-```bash
     >>> from korodata import Korodata
     >>> Korodata.azkenEguneraketa()
     ...
@@ -42,7 +37,6 @@ Erabiltzeko inportatu paketea eta deitu metodoei:
     ...
     >>>
     >>> Korodata.zerrenda()
-```
 
 Funtzioen azalpena
 ------------------
