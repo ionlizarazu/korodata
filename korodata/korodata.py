@@ -51,7 +51,6 @@ class Korodata():
         for patch in leg.get_patches():
             patch.set_height(15)
         for index, value in enumerate(positivesforplot):
-<<<<<<< HEAD:korodata.py
             plt.text(index - 0.6, value * 1.01, str(value))
         
         hamalauEgun = positivesforplot[len(positivesforplot)-14:]
@@ -63,13 +62,6 @@ class Korodata():
         plt.title(herriname, fontsize=26,pad=50)
         plt.xticks(rotation=45, ha="right")
         plt.tight_layout()
-=======
-            plt.text(index, value * 1.01, str(value))
-        plt.text(len(positivesforplot) * 0.35, max(positivesforplot) * -0.09, 'Azken ' +
-                 str(len(positivesforplot)) + ' egunetan guztira: ' + str(sum(positivesforplot)))
-        plt.title(herriname)
-        os.makedirs('./grafikak')
->>>>>>> 413cbc5f07d788b7684331ee6460d03ff6831b9f:korodata/korodata.py
         plt.savefig('./grafikak/' +
                     "".join(x for x in herriname if x.isalnum()) + '.png')
         plt.close(plt.figure(j, figsize=(14, 9)))
