@@ -25,26 +25,30 @@ class Korodata():
         for herri in herrilist:
             i = 0
             if 'geoMunicipality' in herri.keys():
-                if herriname in herri['geoMunicipality']['officialName']:
+                if herriname == herri['geoMunicipality']['officialName']:
                     return int(herri['positiveCount'])
         return 0
 
     def getHerriBefore(herriname, date, days, data):
         datesearch = Korodata.datetimeTodate(date, days)
         datetoprint = Korodata.datetimeTodate(date, days - 1)
-        for egun in data['newPositivesByDateByMunicipality']:
-            if(datesearch in egun['date']):
-                return Korodata.getHerriThisDate(herriname, egun['items'], datetoprint[5:]), datetoprint[5:]
+        if 'newPositivesByDateByMunicipality' in data.keys():
+            for egun in data['newPositivesByDateByMunicipality']:
+                if(datesearch[5:] in egun['date']):
+                    return Korodata.getHerriThisDate(herriname, egun['items'], datetoprint[5:]), datetoprint[5:]
+        return 0, 'EA'
 
-    def draw_figure(j, herriname, datesforplot, positivesforplot, population = 1):
+    def draw_figure(j, herriname, datesforplot, positivesforplot, population=1):
         plt.figure(j, figsize=(14, 9))
         barlist = plt.bar(datesforplot, positivesforplot, width=0.6)
         Korodata.colorize_chart(barlist, positivesforplot, population)
         handles = [mpatches.Patch(color='white')]
-        labels = ['Kalkulatu gabe','< 40','40 - 60','60 - 170','170 - 300','300 - 400','400 - 500','>= 500']
+        labels = ['Kalkulatu gabe', '< 40', '40 - 60', '60 - 170',
+                  '170 - 300', '300 - 400', '400 - 500', '>= 500']
         i = 0
         while i < len(Korodata.colors()):
-            handles.append(mpatches.Patch(facecolor=Korodata.colors()[i], label=labels[i], hatch=Korodata.hatches()[i], edgecolor='k'))
+            handles.append(mpatches.Patch(facecolor=Korodata.colors()[i], label=labels[
+                           i], hatch=Korodata.hatches()[i], edgecolor='k'))
             i += 1
         leg = plt.legend(loc='upper left', handles=handles,
                          title="Inzidentzia-tasa", labelspacing=1, title_fontsize=13, handlelength=4)
@@ -52,17 +56,18 @@ class Korodata():
             patch.set_height(15)
         for index, value in enumerate(positivesforplot):
             plt.text(index - 0.6, value * 1.01, str(value))
-        
-        hamalauEgun = positivesforplot[len(positivesforplot)-14:]
-        per100 = 100000*sum(hamalauEgun)/population
+
+        hamalauEgun = positivesforplot[len(positivesforplot) - 14:]
+        per100 = 100000 * sum(hamalauEgun) / population
         plt.text(len(positivesforplot) * 0.20, max(positivesforplot) * -0.12, 'Azken ' +
                  str(len(hamalauEgun)) + ' egunetan: Guztira ' + str(sum(hamalauEgun)) +
                  ' positibo | 100M biztanleko ' + str(round(per100, 2)), fontsize=17)
-        plt.text(len(positivesforplot) * 0.1, max(positivesforplot) * 1.09, 'COVID-19aren garapena azken 60 egunetan. Kasuak eguneko eta inzidentzia-tasa.',fontsize=17)
-        plt.title(herriname, fontsize=26,pad=50)
+        plt.text(len(positivesforplot) * 0.1, max(positivesforplot) * 1.09,
+                 'COVID-19aren garapena azken 60 egunetan. Kasuak eguneko eta inzidentzia-tasa.', fontsize=17)
+        plt.title(herriname, fontsize=26, pad=50)
         plt.xticks(rotation=45, ha="right")
         plt.tight_layout()
-        plt.savefig('./grafikak/' +
+        plt.savefig('./korodata/grafikak/' +
                     "".join(x for x in herriname if x.isalnum()) + '.png')
         plt.close(plt.figure(j, figsize=(14, 9)))
 
@@ -93,7 +98,7 @@ class Korodata():
             diff = -1
         return color_list[color_list.index(color) + diff]
 
-    def colorize_chart(barlist, values, population = 1):
+    def colorize_chart(barlist, values, population=1):
         colors = ['grey'] * len(barlist)
         i = 0
         if population > 5000:
@@ -101,23 +106,30 @@ class Korodata():
                 if i < 14:
                     colors = Korodata.set_color(i, 'grey', colors, barlist)
                 else:
-                    min_range = i-14
-                    per100 = 100000*sum(values[min_range:i])/population
+                    min_range = i - 14
+                    per100 = 100000 * sum(values[min_range:i]) / population
                     # print(values[min_range:i], sum(values[min_range:i]), per100)
                     if per100 < 40:
-                        colors = Korodata.set_color(i-1, 'yellowgreen', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'yellowgreen', colors, barlist)
                     elif per100 < 60:
-                        colors = Korodata.set_color(i-1, 'greenyellow', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'greenyellow', colors, barlist)
                     elif per100 < 170:
-                        colors = Korodata.set_color(i-1, 'yellow', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'yellow', colors, barlist)
                     elif per100 < 300:
-                        colors = Korodata.set_color(i-1, 'gold', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'gold', colors, barlist)
                     elif per100 < 400:
-                        colors = Korodata.set_color(i-1, 'orange', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'orange', colors, barlist)
                     elif per100 < 500:
-                        colors = Korodata.set_color(i-1, 'darkorange', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'darkorange', colors, barlist)
                     else:
-                        colors = Korodata.set_color(i-1, 'red', colors, barlist)
+                        colors = Korodata.set_color(
+                            i - 1, 'red', colors, barlist)
                 i += 1
         else:
             while i < len(barlist):
@@ -197,9 +209,10 @@ class Korodata():
                             how_may_days -= 1
                         Korodata.draw_figure(
                             i, herria, datesforplot, positivesforplot, population)
-                        print(len(positivesforplot[len(positivesforplot)-14:]))
+                        print(
+                            len(positivesforplot[len(positivesforplot) - 14:]))
                         lastDays = 'Azken ' + \
-                            str(len(positivesforplot[len(positivesforplot)-14:])) + \
+                            str(len(positivesforplot[len(positivesforplot) - 14:])) + \
                             ' egunetan guztira: ' + str(sum(positivesforplot))
 
     def zerrenda():
@@ -287,11 +300,6 @@ class Korodata():
                     if kodea == herri['geoMunicipality']['countyId']:
                         herriname = herri['geoMunicipality']['officialName']
                         population += Korodata.getPopulation(herriname, data)
-            #            probintziaSum += int(herri['positiveCount'])
-            #positivesforplot.append(probintziaSum)
-            #datesforplot.append(date)
-            #probintziaTot += probintziaSum
-            print(population)
             how_may_days = how_may_days_original
             while days <= how_may_days:
                 probintziaSum, datetoplot = Korodata.getProbintziaBefore(
@@ -300,7 +308,7 @@ class Korodata():
                 datesforplot.append(datetoplot)
                 probintziaTot += probintziaSum
                 how_may_days -= 1
-            
+
             file = Korodata.draw_figure(
                 1, probintzia, datesforplot, positivesforplot, population)
             print('#Korodatuak')
@@ -337,10 +345,6 @@ class Korodata():
                 if 'geoMunicipality' in herri.keys():
                     herriname = herri['geoMunicipality']['officialName']
                     population += Korodata.getPopulation(herriname, data)
-            #    eaeSum += int(herri['positiveCount'])
-            #positivesforplot.append(eaeSum)
-            #datesforplot.append(date)
-            #eaeTot += eaeSum
             how_may_days = how_may_days_original
             while days <= how_may_days:
                 eaeSum, datetoplot = Korodata.getEaeBefore(
@@ -349,10 +353,11 @@ class Korodata():
                 datesforplot.append(datetoplot)
                 eaeTot += eaeSum
                 how_may_days -= 1
-            
+
             file = Korodata.draw_figure(
                 1, 'Euskal Autonomia Erkidegoa', datesforplot, positivesforplot, population)
         return file
+
     def getPopulation(herriname, data):
         for herripopulation in data['byDateByMunicipality'][0]['items']:
             if herripopulation['geoMunicipality']['officialName'] == herriname:
@@ -434,7 +439,23 @@ class Korodata():
                 patch.set_height(15)
 
             plt.xticks(rotation=45, ha="right")
-            plt.title("100.000 biztanleko positibo kopurua azken 7 egunak batuta", fontsize=26,pad=50)
+            plt.title(
+                "100.000 biztanleko positibo kopurua azken 7 egunak batuta", fontsize=26, pad=50)
             plt.tight_layout()
-            plt.savefig('./grafikak/100.png')
+            plt.savefig('./korodata/grafikak/100.png')
             plt.close(plt.figure(0, figsize=(14, 8)))
+
+    def gorriak():
+        with urllib.request.urlopen("https://opendata.euskadi.eus/contenidos/ds_informes_estudios/covid_19_2020/opendata/generated/covid19-bymunicipality.json") as url:
+            url_str = url.read().decode('unicode_escape').encode('utf-8')
+            data = json.loads(url_str)
+            herrilist = data['newPositivesByMunicipalityByDate']['positiveCountByMunicipalityByDate']
+            emaitza = ''
+            for herri in herrilist:
+                herria = herri['dimension']['officialName']
+                batura = sum(herri['values'][-14:])
+                population = Korodata.getPopulation(herria, data)
+                per100 = 100000 * batura / population
+                if per100 > 500:
+                    emaitza += str(herria) + ' -> ' + str(per100) + '\n'
+            return emaitza
