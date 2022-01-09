@@ -30,31 +30,50 @@ Instalatu paketea pip erabiliz:
 Erabiltzeko inportatu paketea eta deitu metodoei:
 
     >>> from korodata import Korodata
-    >>> Korodata.azkenEguneraketa()
+    >>> Korodata.azken_eguneraketa()
     ...
     >>>
-    >>> Korodata.herria('Herri izena')
+    >>> fitxategia, herri_izena = Korodata.herria('Antzuola', 60)
     ...
     >>>
-    >>> Korodata.zerrenda()
+    >>> fitxategia = Korodata.probintzia('01', 60)
+    ...
+    >>>
+    >>> fitxategia = Korodata.eae(60)
+
 
 Funtzioen azalpena
 ------------------
 
-azkenEguneraketa()
+azken_eguneraketa()
 ~~~~~~~~~~~~~~~~~
 
 Publikatuta dagoen JSON fitxategiaren azken eguneraketa itzultzen du.
 
-herria('Herri izena')
+herria(herri_izena, zenbat_egun)
 ~~~~~~~~~~~~~~~~~~~~~
 
-Eskatzen zaion herriaren azken 25 egunetako positibo bilakaera duen grafika bat gordetzen du 'grafikak' deituriko karpetan
+Bi parametro hartzen ditu, herriaren izena eta zenbat egun.
+Egun kopurua pasa ezean azken 60 egunetako datuak itzuliko ditu. 
+Eskatzen zaion herriaren azken egunetako positibo bilakaera duen grafika bat eta herriaren izena itzultzen ditu.
 
-zerrenda()
-~~~~~~~~~~
+probintzia(kodea, zenbat_egun)
+~~~~~~~~~~~~~~~~~~~~~
 
-Azken egunean 2 positibo edo gehiago izan duten herri guztien grafika bana gordetzen du 'grafikak' deituriko karpetan, azken 25 egunetako datuekin.
+Bi parametro hartzen ditu, probintziaren kodea eta zenbat egun.
+Probintzia kodeak hauek dira: 
+  - '01' - Araba
+  - '48' - Bizkaia
+  - '20' - Gipuzkoa
+Egun kopurua pasa ezean azken 60 egunetako datuak itzuliko ditu. 
+Eskatzen zaion probintziaren azken egunetako positibo bilakaera duen grafika bat itzultzen du.
+
+eae(zenbat_egun)
+~~~~~~~~~~~~~~~~~~~~~
+
+Parametro bakarra hartzen du, zenbat egun.
+Egun kopurua pasa ezean azken 60 egunetako datuak itzuliko ditu. 
+Euskal Autonomia Erkidegoko azken egunetako positibo bilakaera duen grafika bat itzultzen du.
 
 
 Credits
