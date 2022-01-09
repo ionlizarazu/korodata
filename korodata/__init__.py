@@ -2,7 +2,7 @@
 
 __author__ = """Ion Lizarazu"""
 __email__ = "ilizarazu@codesyntax.com"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 from korodata.korodata import Korodata
 
