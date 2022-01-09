@@ -2,7 +2,7 @@
 History
 =======
 
-2.0.1 (unreleased)
+2.1.0 (2022-01-09)
 ------------------
 
 - gorriak function [ionlizarazu <ilizarazu@codesyntax.com>]
