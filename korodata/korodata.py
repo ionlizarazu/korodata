@@ -309,7 +309,7 @@ class Korodata:
                     return herri_population["population"]
         return -1
 
-    def gorriak():
+    def gorriak(muga):
         with urllib.request.urlopen(JSON_DATA_URL) as url:
             url_str = url.read().decode("unicode_escape").encode("utf-8")
             data = json.loads(url_str)
@@ -323,19 +323,11 @@ class Korodata:
             for herri in herrilist:
                 herria = herri["dimension"]["officialName"]
                 batura = sum(herri["values"][-14:])
-                for herripop in data["newPositivesByDateByMunicipality"][-1][
-                    "items"
-                ]:
-                    if "geoMunicipality" in herripop.keys():
-                        if (
-                            herria.lower()
-                            in herripop["geoMunicipality"][
-                                "officialName"
-                            ].lower()
-                        ):
-                            population = herripop["population"]
-                per100 = 100000 * batura / population
-                if per100 > 500:
+                populazioa = Korodata.get_populazioa(
+                    herria, data
+                )
+                per100 = round(100000 * batura / populazioa, 2)
+                if per100 > muga:
                     if "01" == herri["dimension"]["countyId"]:
                         araba += str(herria) + " -> " + str(per100) + "\n"
                     if "48" == herri["dimension"]["countyId"]:

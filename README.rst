@@ -75,6 +75,12 @@ Parametro bakarra hartzen du, zenbat egun.
 Egun kopurua pasa ezean azken 60 egunetako datuak itzuliko ditu. 
 Euskal Autonomia Erkidegoko azken egunetako positibo bilakaera duen grafika bat itzultzen du.
 
+gorriak(muga)
+~~~~~~~~~~~~~~~~~~~~~
+
+Parametro bakarra hartzen du, muga deiturikoa.
+Intzidentzia metatuaren muga zein izan nahi den aukeratu eta hortik gora daukaten herrien zerrenda itzultzen du, bakoitzaren informazioarekin. 
+
 
 Credits
 -------
